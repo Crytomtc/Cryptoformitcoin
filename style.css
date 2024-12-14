@@ -1,0 +1,121 @@
+/* Estilos generales */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+}
+
+h1 {
+    text-align: center;
+    color: #4CAF50;
+}
+
+/* Menú desplegable */
+.menu-toggle {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    cursor: pointer;
+    z-index: 1000; /* Asegura que esté por encima de otros elementos */
+}
+
+.menu-bar {
+    width: 30px;
+    height: 4px;
+    background-color: #333;
+    margin: 6px 0;
+}
+
+.menu {
+    position: fixed;
+    top: 0;
+    left: -250px;
+    width: 250px;
+    height: 100%;
+    background-color: #333;
+    transition: 0.3s;
+    padding-top: 60px;
+    z-index: 999;
+}
+
+.menu a {
+    padding: 10px 20px;
+    text-decoration: none;
+    font-size: 20px;
+    color: white;
+    display: block;
+}
+
+.menu a:hover {
+    background-color: #575757;
+}
+
+/* Contenido principal */
+.main-content {
+    margin-left: 20px;
+    padding-top: 80px; /* Evita que el contenido se superponga al menú */
+}
+
+/* Estilos para el botón */
+button {
+    background-color: #4CAF50;
+    color: white;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #45a049;
+}
+
+/* Animación para abrir/cerrar el menú */
+.menu-open {
+    left: 0;
+    transition: 0.3s;
+}
+
+/* Estilos para la tienda */
+.shop-item {
+    margin: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+.shop-item img {
+    width: 100px;
+    height: 100px;
+}
+
+.shop-item p {
+    font-size: 16px;
+    margin-top: 10px;
+}
+
+/* Notificaciones */
+#notificaciones {
+    margin-top: 20px;
+    padding: 20px;
+    background-color: #fff;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+}
+
+#notificaciones p {
+    padding: 10px;
+    border-bottom: 1px solid #ddd;
+}
+
+#notificaciones p:last-child {
+    border-bottom: none;
+}
+
+/* Estilos para la página del menú */
+#saldo, #mining-speed {
+    font-size: 18px;
+    margin-top: 10px;
+}

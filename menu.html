@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Menú Principal</title>
+
+    <!-- Estilos CSS dentro del HTML -->
+    <style>
+        /* Estilos generales */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+        }
+
+        /* Menú Hamburguesa */
+        .menu-toggle {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            cursor: pointer;
+            z-index: 10;
+        }
+
+        .menu-bar {
+            width: 30px;
+            height: 5px;
+            background-color: #333;
+            margin: 6px 0;
+        }
+
+        .menu {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 250px;
+            height: 100%;
+            background-color: #333;
+            color: white;
+            display: none;
+            flex-direction: column;
+            padding-top: 60px;
+        }
+
+        .menu.active {
+            display: flex;
+        }
+
+        .menu a {
+            color: white;
+            text-decoration: none;
+            padding: 15px;
+            text-align: center;
+        }
+
+        .menu a:hover {
+            background-color: #575757;
+        }
+
+        .main-content {
+            margin-left: 260px;
+            padding: 20px;
+            transition: margin-left 0.3s;
+            margin-top: 100px; /* Para mover el contenido abajo */
+        }
+
+        /* Estilo para los gráficos */
+        canvas {
+            max-width: 100%;
+            margin-bottom: 20px;
+        }
+
+        /* Estilos de la sección principal */
+        h1 {
+            font-size: 1.8em;
+            margin-bottom: 10px;
+        }
+
+        #saldo, #mining-speed {
+            font-size: 1.2em;
+            margin: 10px 0;
+        }
+
+        #mining-btn {
+            font-size: 1em;
+            padding: 10px 20px;
+            background-color: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        #mining-btn:hover {
+            background-color: #575757;
+        }
+
+        /* Estilos responsivos */
+        @media (max-width: 768px) {
+            .main-content {
+                margin-left: 0;
+                padding: 10px;
+                margin-top: 100px; /* Espacio para que no se solape con el menú hamburguesa */
+            }
+
+            .menu {
+                width: 100%;
+                padding-top: 50px;
+            }
+
+            .menu a {
+                text-align: left;
+            }
+
+            h1 {
+                font-size: 1.5em;
+            }
+
+            #saldo, #mining-speed {
+                font-size: 1em;
+            }
+
+            #mining-btn {
+                width: 100%;
+                padding: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Menú Toggle (Hamburguesa) -->
+    <div class="menu-toggle">
+        <div class="menu-bar"></div>
+        <div class="menu-bar"></div>
+        <div class="menu-bar"></div>
+    </div>
+
+    <!-- Menú Desplegable -->
+    <div class="menu" id="menu">
+        <a href="store.html">Tienda</a>
+        <a href="historia.html">Historial</a>
+        <a href="trans.html">Transferir</a>
+        <a href="inven.html">Inventario</a>
+    </div>
+
+    <!-- Contenido Principal -->
+    <div class="main-content">
+        <h1>Bienvenido al Menú Principal</h1>
+        <div id="user-id">ID: Cargando...</div>
+        <div id="saldo">Saldo: 0 MTC</div>
+        <div id="mining-speed">Velocidad de minería: 1 moneda por hora</div>
+        <button id="mining-btn">Minar</button>
+    </div>
+
+    <!-- Script JavaScript -->
+    <script>
+        let miningInterval;
+        let isMining = false;
+
+        document.addEventListener("DOMContentLoaded", () => {
+            const saldoElement = document.getElementById("saldo");
+            const userIdElement = document.getElementById("user-id");
+            const miningButton = document.getElementById("mining-btn");
+
+            // Mostrar ID del usuario
+            fetch('menu.php')
+                .then(response => response.json())
+                .then(data => {
+                    userIdElement.textContent = `ID: ${data.id}`;
+                    saldoElement.textContent = `Saldo: ${data.saldo} MTC`;
+                })
+                .catch(error => console.error('Error al obtener el ID de usuario:', error));
+
+            miningButton.addEventListener('click', () => {
+                if (!isMining) {
+                    isMining = true;
+                    miningButton.textContent = "Detener Minado";
+                    startMining();
+                } else {
+                    isMining = false;
+                    miningButton.textContent = "Minar";
+                    stopMining();
+                }
+            });
+
+            // Iniciar la minería
+            function startMining() {
+                miningInterval = setInterval(() => {
+                    fetch('menu.php')
+                        .then(response => response.json())
+                        .then(data => {
+                            saldoElement.textContent = `Saldo: ${data.saldo} MTC`;
+                        })
+                        .catch(error => console.error('Error al actualizar saldo:', error));
+                }, 10000); // Actualiza cada 10 segundos
+            }
+
+            // Detener la minería
+            function stopMining() {
+                clearInterval(miningInterval);
+            }
+        });
+
+        // Menu Toggle
+        document.addEventListener("DOMContentLoaded", () => {
+            const menu = document.getElementById('menu');
+            const menuToggle = document.querySelector('.menu-toggle');
+            menuToggle.addEventListener('click', () => {
+                menu.classList.toggle('active');
+            });
+        });
+    </script>
+
+</body>
+</html>
